@@ -26,7 +26,7 @@
         <div class="col-md-12">
             @if($listaItems->isEmpty())
                 <div class="alert alert-info mb-4" role="alert">
-                    No hay elementos en la lista de verificación.
+                    No hay elementos en la lista.
                 </div>
             @else
                 <div class="mb-4">
