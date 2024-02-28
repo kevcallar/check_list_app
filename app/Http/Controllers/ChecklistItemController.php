@@ -8,20 +8,23 @@ use Illuminate\Http\Request;
 class ChecklistItemController extends Controller
 {
     // Método para obtener todos los elementos de la lista de verificación para la fecha actual
-    public function index()
+    public function index(Request $request)
     {
-        // Pone el formato
-        $selectedDate = now()->format('Y-m-d');
+        // Obtiene la fecha seleccionada de la solicitud
+        $selectedDate = $request->input('date', now()->format('Y-m-d'));
     
-        // Busca los items por la fecha de hoy
-        $checklistItems = ChecklistItem::whereDate('created_at', $selectedDate)->get();
+        // Busca los elementos de la lista de verificación para la fecha seleccionada
+        $checklistItems = ChecklistItem::whereDate('fecha', $selectedDate)->get();
     
+        // Verifica si no hay elementos para la fecha seleccionada
         if ($checklistItems->isEmpty()) {
-            return view('check_list')->with('listaItems', collect())->with('message', 'No hay elementos en la lista de verificación para hoy.');
+            return view('check_list')->with('listaItems', collect())->with('message', 'No hay elementos en la lista de verificación para la fecha seleccionada.');
         }
     
+        // Retorna la vista con los elementos de la lista de verificación
         return view('check_list')->with('listaItems', $checklistItems);
     }
+    
     
 
     // Método para crear un nuevo elemento de la lista de verificación
